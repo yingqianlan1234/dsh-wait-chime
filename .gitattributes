@@ -1,0 +1,9 @@
+# 仓库内统一 LF，避免 Windows 检出成 CRLF 后整个文件显示为改动
+* text=auto eol=lf
+
+# 二进制素材不做行尾/编码转换
+*.ogg binary
+*.mp3 binary
+*.wav binary
+*.png binary
+*.gif binary

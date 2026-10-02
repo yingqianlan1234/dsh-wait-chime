@@ -1,0 +1,7 @@
+# dsh-wait-chime bundle patch：把等待提醒插件插入 profile 的 loader 栈。
+# 宿主侧负责「识别助手在等你」（监听会话事件）并下发音频/状态路由；
+# package.json 的 dsh.client 让 lib/client.js 作为客户端插件进页面，负责播音。
+# 回退：从 profile 的 package.json 的 dsh.profile.bundles 里删掉 dsh-wait-chime 一行。
+- insert:
+    - id: dsh-wait-chime
+      name: 'dsh-wait-chime'
