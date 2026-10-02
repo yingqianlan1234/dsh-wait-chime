@@ -16,10 +16,19 @@
     "test",
     "cordis.patch.yml",
     "README.md",
-    "LICENSE"
+    "LICENSE",
+    "PROVENANCE.md"
   ],
   "scripts": {
     "test": "node test/smoke.mjs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yingqianlan1234/dsh-wait-chime.git"
+  },
+  "homepage": "https://github.com/yingqianlan1234/dsh-wait-chime#readme",
+  "bugs": {
+    "url": "https://github.com/yingqianlan1234/dsh-wait-chime/issues"
   },
   "keywords": [
     "dsh",
