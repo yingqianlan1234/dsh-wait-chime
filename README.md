@@ -6,14 +6,14 @@
 
 |触发|依据的会话事件|说明|
 |-|-|-|
-|助手向你提问（`ask\\\_user\\\_question`）|`tool/call` 的工具名|响一声|
+|助手向你提问（`ask\\\\\\\_user\\\\\\\_question`）|`tool/call` 的工具名|响一声|
 |需要额外权限（审批请求）|`approval/asked`|响一声|
 
 ## 特性
 
 * **两类触发**，信号取自 DSH 的会话事件流
 * **设置面板原生分区**：在 DSH 设置里多出一项「等待提醒」，含开关、连续响度滑块、试听按钮
-* **连续响度**：`0.5× \\\~ 6×`（≈ −6dB \~ +15.6dB），用 Web Audio 的 `GainNode` 实现；`<audio>` 叠放作为兜底
+* **连续响度**：`0.5× \\\\\\\~ 6×`（≈ −6dB \~ +15.6dB），用 Web Audio 的 `GainNode` 实现；`<audio>` 叠放作为兜底
 * **改完即时生效**，不用重启（宿主热读取配置）
 * **只读优先、无凭据**：所有 HTTP 路由都不含任何密钥；写配置只有一条，且拒绝跨站请求
 * **自带诊断**：`events.json` 能看到实际见过的会话事件类型；`client-report.json` 能定位设置面板为什么没出现
@@ -40,39 +40,40 @@ dsh-wait-chime/
 
 1. DSH 桌面端 → **插件页 → 添加插件**；
 2. 输入框里填 **GitHub 仓库地址**：`https://github.com/yingqianlan1234/dsh-wait-chime`
-   （如果已经把仓库下载到本地，也可以直接填**本地目录路径**，例如 `D:\plugins\dsh-wait-chime` —— 这种填法完全不走网络）
+（如果已经把仓库下载到本地，也可以直接填**本地目录路径**，例如 `D:\\plugins\\dsh-wait-chime` —— 这种填法完全不走网络）
 3. 点**安装**，然后**重启 DSH 桌面端**；
 4. 在页面里点一下（任意位置）。Chromium 的自动播放策略要求先有一次用户手势，插件会趁那一下静默解锁音频；不点的话第一次提醒可能没声。
 
-> 输入框接受「npm 包名 / GitHub 仓库地址 / 本地目录路径」三者之一。填 GitHub 地址时需要能访问 github.com；面板上的「安装源：中国大陆镜像源」只作用于 **npm 包名**那种填法。
+> 输入框接受「npm 包名 / GitHub 仓库地址 / 本地目录路径」三者之一。填 GitHub 地址时需要能访问 github.com；面板上的「安装源：中国大陆镜像源」只作用于 \*\*npm 包名\*\*那种填法。
 >
-> 插件安装后**暂不支持自动更新**（这是插件页自己的提示）：升级需要先卸载再装新版。
+> 插件安装后\*\*暂不支持自动更新\*\*（这是插件页自己的提示）：升级需要先卸载再装新版。
 
 ### 方式二：手动安装（插件页不可用，或你要改代码调试时）
 
-> 桌面端读取的是 `desktop` profile。以下路径以 `%USERPROFILE%\\\\.dsh` 为例。
+> 桌面端读取的是 `desktop` profile。以下路径以 `%USERPROFILE%\\\\\\\\.dsh` 为例。
 
 **0. 获取代码**（三种任选其一）
 
-- **下载 ZIP**（最省事）：仓库页右上 **Code ▾ → Download ZIP**，解压到任意目录；
-- **git clone**：
-  ```bash
+* **下载 ZIP**（最省事）：仓库页右上 **Code ▾ → Download ZIP**，解压到任意目录；
+* **git clone**：
+
+```bash
   git clone https://github.com/yingqianlan1234/dsh-wait-chime.git
   ```
 
-**1. 放置插件目录**（任意位置都可以，下例假设放在 `D:\\\\plugins\\\\dsh-wait-chime`）
+**1. 放置插件目录**（任意位置都可以，下例假设放在 `D:\\\\\\\\plugins\\\\\\\\dsh-wait-chime`）
 
-**2. 链接进 profile 的 `node\\\_modules`**
+**2. 链接进 profile 的 `node\\\\\\\_modules`**
 
 ```powershell
 New-Item -ItemType Junction `
-  -Path "$env:USERPROFILE\\\\.dsh\\\\profiles\\\\desktop\\\\node\\\_modules\\\\dsh-wait-chime" `
-  -Target "D:\\\\plugins\\\\dsh-wait-chime"
+  -Path "$env:USERPROFILE\\\\\\\\.dsh\\\\\\\\profiles\\\\\\\\desktop\\\\\\\\node\\\\\\\_modules\\\\\\\\dsh-wait-chime" `
+  -Target "D:\\\\\\\\plugins\\\\\\\\dsh-wait-chime"
 ```
 
 **3. 登记到 profile 的 `package.json`**
 
-`%USERPROFILE%\\\\.dsh\\\\profiles\\\\desktop\\\\package.json` 里加两处：
+`%USERPROFILE%\\\\\\\\.dsh\\\\\\\\profiles\\\\\\\\desktop\\\\\\\\package.json` 里加两处：
 
 ```json
 {
@@ -81,7 +82,7 @@ New-Item -ItemType Junction `
   },
   "dsh": {
     "profile": {
-      "bundles": \\\[
+      "bundles": \\\\\\\[
         "dsh-wait-chime"
       ]
     }
@@ -100,13 +101,13 @@ New-Item -ItemType Junction `
 用编辑器改，或者：
 
 ```powershell
-\\\[System.IO.File]::WriteAllText($path, $text, (New-Object System.Text.UTF8Encoding($false)))
+\\\\\\\[System.IO.File]::WriteAllText($path, $text, (New-Object System.Text.UTF8Encoding($false)))
 ```
 
 改完务必这样验证（用与 DSH 相同的解析器，且**不要**预先剥掉 BOM，否则测不出来）：
 
 ```powershell
-node -e "JSON.parse(require('fs').readFileSync(process.argv\\\[1],'utf8'))" "$env:USERPROFILE\\\\.dsh\\\\profiles\\\\desktop\\\\package.json"
+node -e "JSON.parse(require('fs').readFileSync(process.argv\\\\\\\[1],'utf8'))" "$env:USERPROFILE\\\\\\\\.dsh\\\\\\\\profiles\\\\\\\\desktop\\\\\\\\package.json"
 ```
 
 ## 工作原理
@@ -114,8 +115,8 @@ node -e "JSON.parse(require('fs').readFileSync(process.argv\\\[1],'utf8'))" "$en
 ```
 宿主 (lib/index.js)
   root.on('session/event')            ← DSH 会话事件流
-    ├─ tool/call + name=ask\\\_user\\\_question  ┐
-    └─ approval/asked                      ┴→ state.seq++ → 落盘 $DSH\\\_HOME/.dshw-wait.json
+    ├─ tool/call + name=ask\\\\\\\_user\\\\\\\_question  ┐
+    └─ approval/asked                      ┴→ state.seq++ → 落盘 $DSH\\\\\\\_HOME/.dshw-wait.json
 
 页面 (lib/client.js)
   每秒 fetch /dsh-wait-chime/pending.json
@@ -133,14 +134,14 @@ DSH 设置里会出现一项 **「等待提醒」**（导航里的一级分区�
 |控件|作用|
 |-|-|
 |提醒音 开关|相当于配置里的 `enabled`|
-|响度滑块|`gain`，`0.5 \\\~ 6`（步进 0.1），右侧显示倍率与 dB|
+|响度滑块|`gain`，`0.5 \\\\\\\~ 6`（步进 0.1），右侧显示倍率与 dB|
 |音效文件|选本地音频替换提示音（按文件头识别格式），旁边有「恢复默认」|
 |试听|按当前档位立刻响一次|
 
 实现走 DSH 的客户端插槽 API：
 
 ```js
-exports.inject = \\\['slots']
+exports.inject = \\\\\\\['slots']
 ctx.slots.inject('settings.section', () =>
   ctx.slots.register(
     { name: 'settings.section', id: 'dsh-wait-chime', order: 620, label: '等待提醒' },
@@ -165,12 +166,12 @@ ctx.slots.inject('settings.section', () =>
 
 * **上限 4 MB**，建议 **≤ 2 MB、1\~3 秒**的短音效（太长会拖慢对话节奏）
 * 格式**按文件头识别**，改扩展名骗不过去；不是音频文件会被直接拒绝并提示
-* 自定义音效存到 `%USERPROFILE%\\.dsh\\dsh-wait-chime\\chime.<ext>`，**不写进插件目录**——升级插件不会覆盖它，也不会弄脏 git 工作区
+* 自定义音效存到 `%USERPROFILE%\\\\.dsh\\\\dsh-wait-chime\\\\chime.<ext>`，**不写进插件目录**——升级插件不会覆盖它，也不会弄脏 git 工作区
 * 点「恢复默认」会删掉自定义文件，回到内置的 `assets/say1.ogg`
 
 ## 配置
 
-文件：`%USERPROFILE%\\\\.dsh\\\\.dshw-wait.json`（首次触发提醒后自动生成）
+文件：`%USERPROFILE%\\\\\\\\.dsh\\\\\\\\.dshw-wait.json`（首次触发提醒后自动生成）
 
 ```json
 {
@@ -184,8 +185,8 @@ ctx.slots.inject('settings.section', () =>
 |字段|含义|
 |-|-|
 |`enabled`|`false` = 静音（前端只对齐游标，不发声）|
-|`boost`|响度倍数，`0.2 \\\~ 6`（`gain = volume × boost`）|
-|`volume`|`0 \\\~ 1`，保留用于兼容；在设置面板里调过响度后会归一为 `1`|
+|`boost`|响度倍数，`0.2 \\\\\\\~ 6`（`gain = volume × boost`）|
+|`volume`|`0 \\\\\\\~ 1`，保留用于兼容；在设置面板里调过响度后会归一为 `1`|
 |`chime`|自定义音效的元信息（`ext`/`mime`/`size`/`name`/`at`）；`null` = 用内置默认|
 |`seq`|插件自己维护的提醒序号，别手动改|
 
@@ -220,7 +221,7 @@ npm test          # = node test/smoke.mjs
 |现象|先查|
 |-|-|
 |设置里没有「等待提醒」|`GET /dsh-wait-chime/client-report.json`：看 `slotsFound` / `hasReact` / `panelRendered`|
-|完全不响|控制台有没有 `\\\[dsh-wait-chime] 等待提醒已启动`；`pending.json` 的 `seq` 会不会涨|
+|完全不响|控制台有没有 `\\\\\\\[dsh-wait-chime] 等待提醒已启动`；`pending.json` 的 `seq` 会不会涨|
 |第一次没声|自动播放策略：在页面里点一下解锁|
 |提问不响|`events.json` 里有没有 `tool/call`；`pending.json` 的 `kind` 是不是 `question`|
 |审批不响|`events.json` 里有没有 `approval/asked`（只有 `approval/decided` 说明没抓到询问那一刻）|
@@ -229,11 +230,40 @@ npm test          # = node test/smoke.mjs
 
 ## 卸载
 
-从 `%USERPROFILE%\\\\.dsh\\\\profiles\\\\desktop\\\\package.json` 的 `dsh.profile.bundles` 里删掉 `"dsh-wait-chime"` 一行，重启即可（`dependencies` 那行留着无副作用）。彻底清理再删除 `node\\\_modules\\\\dsh-wait-chime` 这个 junction 和插件目录。
+### 用插件页装的
+
+在插件页点卸载即可（它会跑 `pnpm remove`，并把包从 `bundles` 里摘掉）。**卸载后建议重启一次**。
+
+### 手动清理（插件页卸载失败，或安装中途中断留下的残留）
+
+按这四处检查：
+
+1. **`bundles`** — profile 的 `package.json` 里 `dsh.profile.bundles` 数组不应再有 `"dsh-wait-chime"`；
+2. **`dependencies`** — 同一个文件里 `dependencies` 也不应有它；
+3. **`node_modules`** — profile 的 `node_modules` 下不应有 `dsh-wait-chime`；**另外留意名字形如 `dsh-wait-chime_tmp_数字` 的目录**，那是安装中断留下的临时垃圾，删掉即可；
+4. **你的个人数据**（想彻底清干净才需要）：
+   - `%USERPROFILE%\.dsh\.dshw-wait.json` — 开关 / 响度 / 提醒序号
+   - `%USERPROFILE%\.dsh\dsh-wait-chime\` — 你替换过的音效文件
+
+> 只做前 3 步就够了：插件不会再被加载。第 4 步留着不影响任何东西，重装后还能沿用原来的设置。
+
+### ⚠️ 安装中途失败会停在「半卸载」状态
+
+插件页安装时**会先移除已有登记、再去拉取**——填 GitHub 地址时尤其明显。如果这期间网络中断、或者你取消了，插件就会停在**「已卸载但没装上」**：`pending.json` 返回 404、提醒不再响（但你的设置不会丢）。
+
+处理办法二选一：
+
+- 把输入框换成**本地目录路径**或 **npm 包名**重装（这两种不碰 GitHub）；
+- 或按上面第 1~3 步检查一遍，确认没有残留后重装。
+
+### 手动安装的卸载方式（旧说明，仍然有效）
+
+
+从 `%USERPROFILE%\\\\\\\\.dsh\\\\\\\\profiles\\\\\\\\desktop\\\\\\\\package.json` 的 `dsh.profile.bundles` 里删掉 `"dsh-wait-chime"` 一行，重启即可（`dependencies` 那行留着无副作用）。彻底清理再删除 `node\\\\\\\_modules\\\\\\\\dsh-wait-chime` 这个 junction 和插件目录。
 
 ## 素材
 
-`assets/say1.ogg` 取自第三方 Minecraft 音效镜像站，音色是《Minecraft》里的**蠹虫（Silverfish）音效，其权利归 Mojang Studios / Microsoft 所有。它不在 MIT 覆盖范围内**，本仓库不主张任何权利、也不代表已获授权——随插件「原样」提供，只为开箱可用。
+`assets/say1.ogg` 取自第三方 Minecraft 音效镜像站，音色是《Minecraft》里的**蠹虫（Silverfish）**音效，其权利归 Mojang Studios / Microsoft 所有。它**不在 MIT 覆盖范围内**，本仓库不主张任何权利、也不代表已获授权——随插件「原样」提供，只为开箱可用。
 
 逐项来源、许可范围的划分与 takedown 方式见 [**PROVENANCE.md**](PROVENANCE.md)。想换成自己的音效：在设置面板的「音效」一行选文件即可，或直接替换 `assets/say1.ogg`（支持 mp3 / ogg / opus / wav / m4a / aac / flac / webm）。
 
