@@ -17,7 +17,8 @@
     "cordis.patch.yml",
     "README.md",
     "LICENSE",
-    "PROVENANCE.md"
+    "PROVENANCE.md",
+    "ARCHIVED.md"
   ],
   "scripts": {
     "test": "node test/smoke.mjs"
